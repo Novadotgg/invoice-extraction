@@ -3,20 +3,16 @@ import re
 from word2number import w2n
 import csv
 
-# List of PDF invoice filenames
 pdf_files = ['invoice.pdf', 'invoice1.pdf', 'invoice2.pdf', 'invoice3.pdf']
-
-# Output CSV file
 csv_file = "invoice_data.csv"
-
-# Prepare header fields
 fieldnames = [
     "Invoice Number", "Invoice Details", "Invoice Date",
     "Order Number", "Order Date", "PAN No",
     "GST Registration Number", "Amount in Words", "Total Amount"
 ]
 
-# Open CSV in write mode initially and write headers
+
+
 with open(csv_file, mode='w', newline='') as file:
     writer = csv.DictWriter(file, fieldnames=fieldnames)
     writer.writeheader()
@@ -35,7 +31,6 @@ with open(csv_file, mode='w', newline='') as file:
         gst_registration_number = re.search(r'GST Registration No:\s*([A-Z0-9-]+)', text)
         amount_in_words = re.search(r'Amount in Words:\s*(.+?)\s+only', text, re.IGNORECASE)
 
-        # Try to find total amount numerically, otherwise use word2number
         total_amount = re.search(r'Total Amount:\s*([A-Z0-9\s,.-]+)', text)
         if total_amount:
             try:
